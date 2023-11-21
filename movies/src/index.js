@@ -8,10 +8,12 @@ import MovieReviewPage from "./pages/movieReviewPage";
 import SiteHeader from './components/siteHeader'
 import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
-import WatchlistMoviesPage from "./pages/watchlistMoviesPage"; // Ensure this path is correct
+import WatchlistMoviesPage from "./pages/watchlistMoviesPage"; 
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import MoviesContextProvider from "./contexts/moviesContext";
+import ActorsPage from "./pages/actorsPage";
+import ActorDetailsPage from "./pages/actorDetailsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,7 +39,9 @@ const App = () => {
             <Route path="*" element={<Navigate to="/" replace />} />
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
             <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-            <Route path="/watchlist" element={<WatchlistMoviesPage />} /> {/* Updated this line */}
+            <Route path="/watchlist" element={<WatchlistMoviesPage />} />
+            <Route path="/actors/" element={<ActorsPage />} />
+            <Route path="/actors/:id" element={<ActorDetailsPage />} />
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>
