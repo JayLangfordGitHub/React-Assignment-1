@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export const ActorContext = React.createContext(null);
 
-const ActorContext = (props) => {
+const ActorsContext = (props) => {
   const [favorites, setFavorites] = useState( [] ) 
   console.log("ActorContextProvider - Favorites:", favorites);
 
@@ -37,4 +37,4 @@ const ActorContext = (props) => {
   );
 };
 
-export default ActorContext;
+export default ActorsContext;
