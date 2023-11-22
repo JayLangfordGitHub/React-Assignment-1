@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Fab from "@mui/material/Fab";
-import NavigationIcon from "@mui/icons-material/Navigation";
 import Drawer from "@mui/material/Drawer";
+import { useQuery } from "react-query";
+import { getActorFilmography } from "../../api/tmdb-api";
+import MovieCard from "../movieCard";
+import { Grid } from "@mui/material";
+import FilmographyCard from "../filmographyCard";
 
 const root = {
     display: "flex",
@@ -17,6 +19,14 @@ const root = {
 const ActorDetails = ({ actors }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const { data: filmography, isLoading, isError, error } = useQuery(
+    ["filmography", { id: actors.id }], 
+    getActorFilmography
+  );
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+
   return (
     <>
       <Typography variant="h5" component="h3">
@@ -27,23 +37,19 @@ const ActorDetails = ({ actors }) => {
         {actors.biography || "No biography available."}
       </Typography>
 
-      <Paper component="ul" sx={{...root}}>
-        {/* add known for movies later*/}
-      </Paper>
+      
 
-      {/* fab for filmography later */}
-      <Fab
-        color="secondary"
-        variant="extended"
-        onClick={() => setDrawerOpen(true)}
-        sx={{
-          position: 'fixed',
-          bottom: '1em',
-          right: '1em'
-        }}
-      >
-        <NavigationIcon />
-      </Fab>
+      <Typography variant="h5" component="h3">
+        Filmography
+      </Typography>
+      <Grid container spacing={2}>
+        {filmography && filmography.cast.map((movie) => (
+          <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3} xl={2}>
+            <FilmographyCard movie={movie} />
+          </Grid>
+        ))}
+      </Grid>
+
       
       <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
       </Drawer>

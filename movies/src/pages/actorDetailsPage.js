@@ -5,15 +5,12 @@ import PageTemplate from "../components/templateActorsPage";
 import { getActor } from "../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
-
+import ActorHeader from "../components/actorHeader";
 
 const ActorDetailsPage = (props) => {
   const { id } = useParams();
+  const { data: actors, error, isLoading, isError } = useQuery(['actorDetails', { id }], getActor);
 
-  const { data: actors, error, isLoading, isError } = useQuery(
-    ["actors", { id: id }],
-    getActor
-  );
 
   if (isLoading) {
     return <Spinner />;
@@ -27,12 +24,13 @@ const ActorDetailsPage = (props) => {
     <>
       {actors ? (
         <>
+          <ActorHeader title={actors.name} />
           <PageTemplate actors={actors}>
             <ActorDetails actors={actors} />
           </PageTemplate>
         </>
       ) : (
-        <p>Waiting for actor details</p>
+        <p>Waiting for actor details...</p>
       )}
     </>
   );
