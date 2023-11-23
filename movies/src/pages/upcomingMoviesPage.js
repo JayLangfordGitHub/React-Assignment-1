@@ -8,6 +8,8 @@ import { Pagination } from "@mui/material";
 
 const UpcomingMoviesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const moviesPerPage = 17;
+
   const { data, error, isLoading, isError } = useQuery(['upcoming', currentPage], () => getUpcomingMovies(currentPage));
 
   if (isLoading) {
@@ -18,13 +20,13 @@ const UpcomingMoviesPage = () => {
     return <h1>{error.message}</h1>;
   }
 
-  const movies = data.results;
+  const movies = data.results.slice(0, moviesPerPage);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
-  const totalPages = data.total_pages; // Adjust based on API response
+  const totalPages = Math.ceil(data.total_results / moviesPerPage);
 
   return (
     <>

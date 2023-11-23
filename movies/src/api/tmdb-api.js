@@ -161,4 +161,10 @@ export const getMovie = (args) => {
        throw error;
     });
   };
+
+  export const getTrendingMovies = () => {
+    return fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.REACT_APP_TMDB_KEY}`)
+      .then(res => res.json())
+      .then(data => data.results);
+  };
   
