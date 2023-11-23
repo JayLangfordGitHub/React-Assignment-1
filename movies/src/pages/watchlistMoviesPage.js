@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
@@ -6,44 +6,55 @@ import { getMovie } from "../api/tmdb-api";
 import Spinner from '../components/spinner';
 import AddToMustWatchIcon from "../components/cardIcons/addToPlaylist";
 import WriteReview from "../components/cardIcons/writeReview";
+import { Pagination } from "@mui/material";
 
 const WatchlistMoviesPage = () => {
   const { mustWatch: movieIds } = useContext(MoviesContext);
+  const [currentPage, setCurrentPage] = useState(1);
+  const moviesPerPage = 17; // Set the number of movies per page
 
-  // Create an array of queries and run in parallel.
+  const startIndex = (currentPage - 1) * moviesPerPage;
+  const selectedMovieIds = movieIds.slice(startIndex, startIndex + moviesPerPage);
+
   const watchlistMovieQueries = useQueries(
-    movieIds.map((movieId) => {
-      return {
-        queryKey: ["movie", { id: movieId }],
-        queryFn: getMovie,
-      };
-    })
+    selectedMovieIds.map((movieId) => ({
+      queryKey: ["movie", { id: movieId }],
+      queryFn: getMovie,
+    }))
   );
-  // Check if any of the parallel queries is still loading.
-  const isLoading = watchlistMovieQueries.find((m) => m.isLoading === true);
+
+  const isLoading = watchlistMovieQueries.some((query) => query.isLoading);
 
   if (isLoading) {
     return <Spinner />;
   }
 
-  const movies = watchlistMovieQueries.map((q) => {
-    q.data.genre_ids = q.data.genres.map(g => g.id);
-    return q.data;
-  });
+  const movies = watchlistMovieQueries.map((query) => query.data);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   return (
-    <PageTemplate
-      title="Watchlist"
-      movies={movies}
-      action={(movie) => {
-        return (
+    <>
+      <PageTemplate
+        title="Watchlist"
+        movies={movies}
+        action={(movie) => (
           <>
             <AddToMustWatchIcon movie={movie} />
             <WriteReview movie={movie} />
           </>
-        );
-      }}
-    />
+        )}
+      />
+      <Pagination
+        count={Math.ceil(movieIds.length / moviesPerPage)}
+        page={currentPage}
+        onChange={handlePageChange}
+        color="secondary"
+        style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }}
+      />
+    </>
   );
 };
 
