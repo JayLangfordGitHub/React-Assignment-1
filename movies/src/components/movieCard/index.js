@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
 import { CardActions, Box} from "@mui/material";
-import RemoveFromFavoritesIcon from "../cardIcons/removeFromFavorites"
 
 
 export default function MovieCard({ movie }) {
