@@ -11,14 +11,15 @@ import img from '../../images/film-poster-placeholder.png';
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
-import { CardActions, Box} from "@mui/material";
-
+import { CardActions, Box } from "@mui/material";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 export default function MovieCard({ movie }) {
-  const { favorites, addToFavorites, removeFromFavorites } = useContext(MoviesContext);
+  const { favorites, addToFavorites, removeFromFavorites, mustWatch, addToMustWatch, removeFromMustWatch } = useContext(MoviesContext);
 
-
-  const isFavorite = favorites.some(id => id === movie.id);
+  const isFavorite = favorites.some((id) => id === movie.id);
+  const isInMustWatch = mustWatch.some((id) => id === movie.id);
 
   const handleToggleFavorite = (e) => {
     e.stopPropagation();
@@ -26,6 +27,15 @@ export default function MovieCard({ movie }) {
       removeFromFavorites(movie);
     } else {
       addToFavorites(movie);
+    }
+  };
+
+  const handleToggleMustWatch = (e) => {
+    e.stopPropagation();
+    if (isInMustWatch) {
+      removeFromMustWatch(movie);
+    } else {
+      addToMustWatch(movie);
     }
   };
 
@@ -54,17 +64,34 @@ export default function MovieCard({ movie }) {
         </Grid>
       </CardContent>
       <CardActions>
-  <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: '100%', padding: 1 }}>
-    <IconButton onClick={handleToggleFavorite} size="large">
-      <FavoriteIcon color={isFavorite ? "error" : "primary"} />
-    </IconButton>
-    <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}>
-      <Button variant="outlined" size="medium" color="primary">
-        More Info ...
-      </Button>
-    </Link>
-  </Box>
-</CardActions>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: '100%', padding: 1 }}>
+          <IconButton onClick={handleToggleFavorite} size="large">
+            <FavoriteIcon color={isFavorite ? "error" : "primary"} />
+          </IconButton>
+          {isInMustWatch ? (
+            <IconButton
+              aria-label="remove from watchlist"
+              onClick={handleToggleMustWatch}
+              size="large"
+            >
+              <RemoveCircleOutlineIcon color="secondary" />
+            </IconButton>
+          ) : (
+            <IconButton
+              aria-label="add to watchlist"
+              onClick={handleToggleMustWatch}
+              size="large"
+            >
+              <PlaylistAddIcon color="primary" />
+            </IconButton>
+          )}
+          <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none', marginLeft: 'auto' }}>
+            <Button variant="outlined" size="medium" color="primary">
+              More Info ...
+            </Button>
+          </Link>
+        </Box>
+      </CardActions>
     </Card>
   );
 }
