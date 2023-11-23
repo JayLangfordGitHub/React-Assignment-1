@@ -9,6 +9,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
+
 const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -43,7 +44,7 @@ const HomePage = () => {
   };
 
   return (
-    <Container maxWidth="90%"> {/* Set a maximum width relative to the screen width */}
+    <Container maxWidth="90%">
       <Paper
         component="div"
         sx={{
