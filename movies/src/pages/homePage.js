@@ -4,7 +4,7 @@ import { getMovies, getTrendingMovies } from "../api/tmdb-api";
 import Spinner from '../components/spinner';
 import PageTemplate from "../components/templateMovieListPage";
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites';
-import { Pagination, Typography, Paper } from "@mui/material";
+import { Pagination, Typography, Paper, Container } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -34,7 +34,6 @@ const HomePage = () => {
     setCurrentPage(page);
   };
 
-  // Updated slider settings without arrows
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -44,26 +43,26 @@ const HomePage = () => {
   };
 
   return (
-    <>
+    <Container maxWidth="90%"> {/* Set a maximum width relative to the screen width */}
       <Paper
-      component="div"
-      sx={{
-        position: 'relative',
-        maxWidth: '100%', // Limit the width to the viewport width
-        margin: '0 auto', // Center the header horizontally
-        marginTop: '20px',
-        marginBottom: '20px',
-        padding: '20px',
-        backgroundColor: '#fff',
-        boxShadow: 3,
-        zIndex: 1,
-        textAlign: 'center',
-      }}
-    >
-      <Typography variant="h4" component="h3">
-        Trending Movies
-      </Typography>
-    </Paper>
+        component="div"
+        sx={{
+          position: 'relative',
+          maxWidth: '100%',
+          margin: '0 auto', 
+          marginTop: '20px',
+          marginBottom: '20px',
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: 3,
+          zIndex: 1,
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h4" component="h3">
+          Trending Movies
+        </Typography>
+      </Paper>
 
       {trendingMovies && trendingMovies.length > 0 && (
         <Slider {...sliderSettings}>
@@ -91,7 +90,7 @@ const HomePage = () => {
           size="large"
         />
       )}
-    </>
+    </Container>
   );
 };
 
