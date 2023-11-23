@@ -11,16 +11,23 @@ import img from '../../images/film-poster-placeholder.png';
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
-import { CardActions } from "@mui/material";
+import { CardActions, Box} from "@mui/material";
+import RemoveFromFavoritesIcon from "../cardIcons/removeFromFavorites"
+
 
 export default function MovieCard({ movie }) {
-  const { favorites, addToFavorites } = useContext(MoviesContext);
+  const { favorites, addToFavorites, removeFromFavorites } = useContext(MoviesContext);
+
 
   const isFavorite = favorites.some(id => id === movie.id);
 
-  const handleAddToFavorite = (e) => {
+  const handleToggleFavorite = (e) => {
     e.stopPropagation();
-    addToFavorites(movie);
+    if (isFavorite) {
+      removeFromFavorites(movie);
+    } else {
+      addToFavorites(movie);
+    }
   };
 
   return (
@@ -47,16 +54,18 @@ export default function MovieCard({ movie }) {
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions sx={{ justifyContent: 'flex-start', padding: '8px' }}>
-        <IconButton onClick={handleAddToFavorite} size="large">
-          <FavoriteIcon color={isFavorite ? "error" : "primary"} />
-        </IconButton>
-        <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
-        </Link>
-      </CardActions>
+      <CardActions>
+  <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: '100%', padding: 1 }}>
+    <IconButton onClick={handleToggleFavorite} size="large">
+      <FavoriteIcon color={isFavorite ? "error" : "primary"} />
+    </IconButton>
+    <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}>
+      <Button variant="outlined" size="medium" color="primary">
+        More Info ...
+      </Button>
+    </Link>
+  </Box>
+</CardActions>
     </Card>
   );
 }
