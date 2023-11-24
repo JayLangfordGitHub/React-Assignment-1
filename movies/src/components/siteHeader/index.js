@@ -18,6 +18,7 @@ const SiteHeader = ({ history }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [searchText, setSearchText] = useState("");
+  const [actorSearchText, setActorSearchText] = useState("");
   const navigate = useNavigate();
 
   const theme = useTheme();
@@ -48,6 +49,15 @@ const SiteHeader = ({ history }) => {
     navigate(`/search?query=${searchText}`);
   };
 
+  const handleActorSearchInput = (e) => {
+    setActorSearchText(e.target.value);
+  };
+
+  const handleSubmitActorSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search/actors?query=${actorSearchText}`);
+  };
+
   return (
     <>
       <AppBar position="fixed" color="secondary">
@@ -66,7 +76,18 @@ const SiteHeader = ({ history }) => {
               onChange={handleSearchInput}
             />
             <Button type="submit" color="inherit">
-              Search
+              Search Movies
+            </Button>
+          </form>
+          <form onSubmit={handleSubmitActorSearch}>
+            <input
+              type="text"
+              placeholder="Search actors..."
+              value={actorSearchText}
+              onChange={handleActorSearchInput}
+            />
+            <Button type="submit" color="inherit">
+              Search Actors
             </Button>
           </form>
           {isMobile ? (

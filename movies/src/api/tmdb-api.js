@@ -190,3 +190,18 @@ export const getMovie = (args) => {
     .then(res => res.json())
     .then(data => data.cast);
   };
+
+  export const getSearchActors = (searchTerm, page = 1) => {
+    const endpoint = `/search/person?query=${encodeURIComponent(searchTerm)}&page=${page}`;
+    
+    return fetch(`https://api.themoviedb.org/3${endpoint}&api_key=${process.env.REACT_APP_TMDB_KEY}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };

@@ -18,6 +18,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import MoviesContextProvider from "./contexts/moviesContext";
 import SearchPage from './pages/searchPage';
+import SearchActorsPage from "./pages/searchActorsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,33 +39,36 @@ const App = () => {
       setCurrentUser(user);
     });
 
-    // Cleanup subscription on unmount
     return unsubscribe;
-  }, [auth]); // `auth` in the dependency array
+  }, [auth]); 
 
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader />
         <MoviesContextProvider>
-          <Routes>
-              <>
-                <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
-                <Route path="/reviews/:id" element={<MovieReviewPage />} />
-                <Route path="/movies/:id" element={<MoviePage />} />
-                <Route path="/" element={<HomePage />} />
-                <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-                <Route path="/watchlist" element={<WatchlistMoviesPage />} />
-                <Route path="/actors" element={<ActorsPage />} />
-                <Route path="/actors/:id" element={<ActorDetailsPage />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="*" element={<Navigate to="/signin" replace />} />
-                <Route path="/search" element={<SearchPage />} />
-              </>
-          </Routes>
+        <Routes>
+
+    <>
+      <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+      <Route path="/reviews/:id" element={<MovieReviewPage />} />
+      <Route path="/movies/:id" element={<MoviePage />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+      <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+      <Route path="/watchlist" element={<WatchlistMoviesPage />} />
+      <Route path="/actors" element={<ActorsPage />} />
+      <Route path="/actors/:id" element={<ActorDetailsPage />} />
+      <Route path="/search/movies" element={<SearchPage />} />
+      <Route path="/search/actors" element={<SearchActorsPage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+  
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="*" element={<Navigate to="/signin" replace />} />
+    </>
+</Routes>
+
         </MoviesContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />

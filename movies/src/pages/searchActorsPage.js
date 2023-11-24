@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import PageTemplate from '../components/templateMovieListPage';
-import { getSearchMovies } from '../api/tmdb-api';
+import ActorListPageTemplate from '../components/templateActorsListPage'; 
+import { getSearchActors } from '../api/tmdb-api'; 
 import Spinner from '../components/spinner';
-import AddToFavoritesIcon from '../components/cardIcons/addToFavorites';
 import { Pagination } from "@mui/material";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
-const SearchPage = () => {
+const SearchActorsPage = () => {
   const query = useQuery();
   const searchTerm = query.get('query');
-  const [movies, setMovies] = useState([]);
+  const [actors, setActors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0); 
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    getSearchMovies(searchTerm, currentPage).then((data) => {
-      setMovies(data.results);
+    getSearchActors(searchTerm, currentPage).then((data) => {
+      setActors(data.results);
       setTotalPages(data.total_pages); 
       setIsLoading(false);
     });
-  }, [searchTerm, currentPage]); 
+  }, [searchTerm, currentPage]);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -36,10 +35,9 @@ const SearchPage = () => {
 
   return (
     <>
-      <PageTemplate
+      <ActorListPageTemplate
         title={`Search Results for: ${searchTerm}`}
-        movies={movies}
-        action={(movie) => <AddToFavoritesIcon movie={movie} />}
+        actors={actors}
       />
       <Pagination
         style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }}
@@ -53,4 +51,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default SearchActorsPage;
