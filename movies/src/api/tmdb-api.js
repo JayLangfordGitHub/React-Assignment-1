@@ -10,6 +10,21 @@ export const getMovies = (page = 1) => {
       throw error;
     });
 };
+
+export const getSearchMovies = (searchTerm, page = 1) => {
+  return fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${encodeURIComponent(searchTerm)}&page=${page}`
+  )
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error;
+  });
+};
   
 export const getMovie = (args) => {
   // console.log(args)

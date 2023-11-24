@@ -17,6 +17,7 @@ import SignUp from "./components/signUp";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import MoviesContextProvider from "./contexts/moviesContext";
+import SearchPage from './pages/searchPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -61,6 +62,7 @@ const App = () => {
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="*" element={<Navigate to="/signin" replace />} />
+                <Route path="/search" element={<SearchPage />} />
               </>
           </Routes>
         </MoviesContextProvider>
