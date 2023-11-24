@@ -11,7 +11,7 @@ const useQuery = () => {
 
 const SearchActorsPage = () => {
   const query = useQuery();
-  const searchTerm = query.get('query');
+  const searchTerm = query.get('actorQuery');
   const [actors, setActors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);

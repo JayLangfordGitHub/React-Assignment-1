@@ -46,16 +46,16 @@ const SiteHeader = ({ history }) => {
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
-    navigate(`/search?query=${searchText}`);
+    navigate(`/search/movies?movieQuery=${searchText}`);
+  };
+  
+  const handleSubmitActorSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search/actors?actorQuery=${actorSearchText}`);
   };
 
   const handleActorSearchInput = (e) => {
     setActorSearchText(e.target.value);
-  };
-
-  const handleSubmitActorSearch = (e) => {
-    e.preventDefault();
-    navigate(`/search/actors?query=${actorSearchText}`);
   };
 
   return (
