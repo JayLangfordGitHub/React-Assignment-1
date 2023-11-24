@@ -19,6 +19,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import MoviesContextProvider from "./contexts/moviesContext";
 import SearchPage from './pages/searchPage';
 import SearchActorsPage from "./pages/searchActorsPage";
+import LatestMoviesPage from "./pages/latestMoviesPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,6 +63,7 @@ const App = () => {
       <Route path="/search/movies" element={<SearchPage />} />
       <Route path="/search/actors" element={<SearchActorsPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/movies/latest" element={<LatestMoviesPage />} />
   
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
