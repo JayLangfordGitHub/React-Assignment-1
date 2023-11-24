@@ -11,15 +11,16 @@ import { Pagination } from "@mui/material";
 const FavoriteMoviesPage = () => {
   const { favorites: movieIds } = useContext(MoviesContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const moviesPerPage = 17; // Set the number of movies per page
+  const moviesPerPage = 17; 
 
   const startIndex = (currentPage - 1) * moviesPerPage;
   const selectedMovieIds = movieIds.slice(startIndex, startIndex + moviesPerPage);
 
   const favoriteMovieQueries = useQueries(
     selectedMovieIds.map((movieId) => ({
-      queryKey: ["movie", { id: movieId }],
-      queryFn: getMovie,
+      queryKey: ["movie", movieId],
+      queryFn: () => getMovie({ queryKey: ['movie', { id: movieId }] }),
+      staleTime: 1000 * 60 * 5, 
     }))
   );
 
@@ -29,7 +30,9 @@ const FavoriteMoviesPage = () => {
     return <Spinner />;
   }
 
-  const movies = favoriteMovieQueries.map((query) => query.data);
+  const movies = favoriteMovieQueries.map((query) => {
+    return query.data;
+  }).filter(Boolean); 
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);

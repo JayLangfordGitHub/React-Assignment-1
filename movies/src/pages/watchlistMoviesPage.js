@@ -11,25 +11,27 @@ import { Pagination } from "@mui/material";
 const WatchlistMoviesPage = () => {
   const { mustWatch: movieIds } = useContext(MoviesContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const moviesPerPage = 17; // Set the number of movies per page
+  const moviesPerPage = 17; 
 
   const startIndex = (currentPage - 1) * moviesPerPage;
   const selectedMovieIds = movieIds.slice(startIndex, startIndex + moviesPerPage);
 
   const watchlistMovieQueries = useQueries(
     selectedMovieIds.map((movieId) => ({
-      queryKey: ["movie", { id: movieId }],
-      queryFn: getMovie,
+      queryKey: ["movie", movieId],
+      queryFn: () => getMovie({ queryKey: ['movie', { id: movieId }] }),
+      staleTime: 1000 * 60 * 5, 
     }))
   );
 
   const isLoading = watchlistMovieQueries.some((query) => query.isLoading);
+  const movies = watchlistMovieQueries
+    .map((query) => query.data)
+    .filter(Boolean); 
 
   if (isLoading) {
     return <Spinner />;
   }
-
-  const movies = watchlistMovieQueries.map((query) => query.data);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);

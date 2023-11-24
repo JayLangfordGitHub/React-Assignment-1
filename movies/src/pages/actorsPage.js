@@ -21,17 +21,14 @@ const ActorsPage = () => {
     return <h1>{error.message}</h1>;
   }
 
-  // Limit the number of actors to 18
   const actors = data.results.slice(0, 18);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
-  // You might want to calculate total pages based on this new number
-  // For example, if API gives you total_pages based on 20 items per page:
   const totalResults = data.total_results;
-  const totalPages = Math.ceil(totalResults / 18); // now we use 18 instead of 20
+  const totalPages = Math.ceil(totalResults / 18); 
 
   return (
     <>
