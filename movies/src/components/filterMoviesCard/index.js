@@ -17,11 +17,12 @@ import Spinner from '../spinner';
 const formControl = {
   margin: 1,
   minWidth: 220,
-  backgroundColor: "white" 
+  backgroundColor: "white"
 };
 
 export default function FilterMoviesCard(props) {
   const { data, error, isLoading, isError } = useQuery("genres", getGenres);
+  const [ratingFilter, setRatingFilter] = useState('');
 
   if (isLoading) {
     return <Spinner />;
@@ -30,29 +31,30 @@ export default function FilterMoviesCard(props) {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
+  
   const genres = data.genres;
   if (genres[0].name !== "All") {
     genres.unshift({ id: "0", name: "All" });
   }
 
-  const handleChange = (e, type, value) => {
-    e.preventDefault();
-    props.onUserInput(type, value);
-  };
-
-  const handleTextChange = (e, props) => {
-    handleChange(e, "name", e.target.value);
+  const handleTextChange = (e) => {
+    props.onUserInput("name", e.target.value);
   };
 
   const handleGenreChange = (e) => {
-    handleChange(e, "genre", e.target.value);
+    props.onUserInput("genre", e.target.value);
+  };
+
+  const handleRatingChange = (e) => {
+    setRatingFilter(e.target.value);
+    props.onUserInput("rating", e.target.value);
   };
 
   return (
     <Card sx={{ maxWidth: 345, backgroundColor: "#424242" }}>
       <CardContent>
-        <Typography variant="h5" component="h1" sx={{ color: 'white' }}> 
-          <SearchIcon fontSize="large" sx={{ color: 'white' }} /> 
+        <Typography variant="h5" component="h1" sx={{ color: 'white' }}>
+          <SearchIcon fontSize="large" sx={{ color: 'white' }} />
           Filter the movies.
         </Typography>
         <TextField
@@ -69,7 +71,6 @@ export default function FilterMoviesCard(props) {
           <Select
             labelId="genre-label"
             id="genre-select"
-            defaultValue=""
             value={props.genreFilter}
             onChange={handleGenreChange}
           >
@@ -78,6 +79,26 @@ export default function FilterMoviesCard(props) {
                 {genre.name}
               </MenuItem>
             ))}
+          </Select>
+        </FormControl>
+        <FormControl sx={formControl}>
+          <InputLabel id="rating-label" sx={{ color: 'black' }}>Rating</InputLabel>
+          <Select
+            labelId="rating-label"
+            id="rating-select"
+            value={ratingFilter}
+            onChange={handleRatingChange}
+          >
+           <MenuItem value={0}>0 </MenuItem>
+           <MenuItem value={1}>1 </MenuItem>
+           <MenuItem value={2}>2 </MenuItem>
+           <MenuItem value={3}>3 </MenuItem>
+           <MenuItem value={4}>4 </MenuItem>
+           <MenuItem value={5}>5 </MenuItem>
+           <MenuItem value={6}>6 </MenuItem>
+           <MenuItem value={7}>7 </MenuItem>
+           <MenuItem value={8}>8 </MenuItem>
+           <MenuItem value={9}>9 </MenuItem>
           </Select>
         </FormControl>
       </CardContent>
