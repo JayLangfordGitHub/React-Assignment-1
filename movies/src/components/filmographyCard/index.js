@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import img from '../../images/film-poster-placeholder.png';
 import { CardActions } from "@mui/material";
 import Button from '@mui/material/Button';
-import StarRateIcon from '@mui/icons-material/StarRate'; // Import the star icon
+import StarRateIcon from '@mui/icons-material/StarRate';
 
 export default function FilmographyCard({ movie }) {
 
@@ -34,7 +34,7 @@ export default function FilmographyCard({ movie }) {
               <Grid item xs={12}>
                 <Typography variant="body2" color="text.secondary" component="div">
                   <StarRateIcon sx={{ verticalAlign: 'bottom' }} />
-                  {` ${formattedRating(movie.vote_average)}`} {/* Format the rating */}
+                  {` ${formattedRating(movie.vote_average)}`}
                 </Typography>
               </Grid>
               <Grid item xs={12}> 
