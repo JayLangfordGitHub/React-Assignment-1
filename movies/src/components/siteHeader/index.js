@@ -33,6 +33,13 @@ const SiteHeader = ({ history }) => {
     { label: "Actors", path: "/actors" },
   ];
 
+  const StyledButton = styled(Button)(({ theme }) => ({
+    color: 'white', 
+    '&:not(:last-of-type)': {
+      borderRight: '1px solid rgba(255, 255, 255, 0.2)', 
+    },
+  }));
+
   const handleMenuSelect = (pageURL) => {
     navigate(pageURL, { replace: true });
   };
@@ -61,35 +68,37 @@ const SiteHeader = ({ history }) => {
 
   return (
     <>
-      <AppBar position="fixed" color="secondary">
+      <AppBar position="fixed" sx={{ backgroundColor: '#424242' }}>
         <Toolbar>
-          <Typography variant="h4" sx={{ flexGrow: 1 }}>
+          <Typography variant="h4" sx={{ flexGrow: 1, color: 'white' }}>
             TMDB Client
           </Typography>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" sx={{ flexGrow: 1, color: 'white' }}>
             All you ever wanted to know about Movies!
           </Typography>
-          <form onSubmit={handleSubmitSearch}>
+          <form onSubmit={handleSubmitSearch} style={{ display: 'inline' }}>
             <input
               type="text"
               placeholder="Search movies..."
               value={searchText}
               onChange={handleSearchInput}
+              style={{ marginRight: '10px' }}
             />
-            <Button type="submit" color="inherit">
+            <StyledButton type="submit">
               Search Movies
-            </Button>
+            </StyledButton>
           </form>
-          <form onSubmit={handleSubmitActorSearch}>
+          <form onSubmit={handleSubmitActorSearch} style={{ display: 'inline', marginLeft: '10px' }}>
             <input
               type="text"
               placeholder="Search actors..."
               value={actorSearchText}
               onChange={handleActorSearchInput}
+              style={{ marginRight: '10px' }}
             />
-            <Button type="submit" color="inherit">
+            <StyledButton type="submit">
               Search Actors
-            </Button>
+            </StyledButton>
           </form>
           {isMobile ? (
             <>
@@ -98,7 +107,7 @@ const SiteHeader = ({ history }) => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
-                color="inherit"
+                sx={{ color: 'white', marginLeft: '10px' }}
               >
                 <MenuIcon />
               </IconButton>
@@ -129,13 +138,12 @@ const SiteHeader = ({ history }) => {
             </>
           ) : (
             menuOptions.map((opt) => (
-              <Button
+              <StyledButton
                 key={opt.label}
-                color="inherit"
                 onClick={() => handleMenuSelect(opt.path)}
               >
                 {opt.label}
-              </Button>
+              </StyledButton>
             ))
           )}
         </Toolbar>

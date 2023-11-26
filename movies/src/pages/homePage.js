@@ -60,7 +60,7 @@ const HomePage = () => {
           textAlign: 'center',
         }}
       >
-        <Typography variant="h4" component="h3">
+        <Typography variant="h4" component="h3" sx={{ color: 'white', backgroundColor: '#424242', padding: '10px', }}>
           Trending Movies
         </Typography>
       </Paper>
@@ -70,7 +70,6 @@ const HomePage = () => {
           {trendingMovies.map(movie => (
             <div key={movie.id}>
               <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
-              {/* Other movie details */}
             </div>
           ))}
         </Slider>
